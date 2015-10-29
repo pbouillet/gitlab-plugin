@@ -1,8 +1,8 @@
 package com.dabsquared.gitlabjenkins;
 
 import hudson.Extension;
-import hudson.model.Run;
 import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
 import hudson.triggers.Trigger;

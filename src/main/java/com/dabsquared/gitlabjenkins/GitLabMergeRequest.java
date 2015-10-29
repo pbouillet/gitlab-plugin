@@ -1,11 +1,11 @@
 package com.dabsquared.gitlabjenkins;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.gitlab.api.models.GitlabProject;
+
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * Represents for WebHook payload
@@ -14,28 +14,27 @@ import org.gitlab.api.models.GitlabProject;
  */
 public class GitLabMergeRequest extends GitLabRequest {
 
-	public static GitLabMergeRequest create(String payload) {
-        if (payload == null) {
-            throw new IllegalArgumentException("payload should not be null");
-        }
-     
-        GitLabMergeRequest pushRequest =  Builder.INSTANCE.get().fromJson(payload, GitLabMergeRequest.class);
-        return pushRequest;
-    }
-    
+    private String object_kind;
+    private ObjectAttributes objectAttributes;
+    private GitlabProject sourceProject = null;
+
     public GitLabMergeRequest() {
     }
 
-    private String object_kind;
+    public static GitLabMergeRequest create(String payload) {
+        if (payload == null) {
+            throw new IllegalArgumentException("payload should not be null");
+        }
 
-    private ObjectAttributes objectAttributes;
-    private GitlabProject sourceProject = null;
-    
-    public GitlabProject getSourceProject (GitLab api) throws IOException {
-    	if (sourceProject == null) {
-    		sourceProject = api.instance().getProject(objectAttributes.sourceProjectId);
-    	}
-    	return sourceProject;
+        GitLabMergeRequest pushRequest = Builder.INSTANCE.get().fromJson(payload, GitLabMergeRequest.class);
+        return pushRequest;
+    }
+
+    public GitlabProject getSourceProject(GitLab api) throws IOException {
+        if (sourceProject == null) {
+            sourceProject = api.instance().getProject(objectAttributes.sourceProjectId);
+        }
+        return sourceProject;
     }
 
     public String getObject_kind() {
@@ -95,7 +94,7 @@ public class GitLabMergeRequest extends GitLabRequest {
         private Branch target;
 
         private LastCommit lastCommit;
-        
+
         private String action;
 
         public ObjectAttributes() {
@@ -241,7 +240,7 @@ public class GitLabMergeRequest extends GitLabRequest {
         public void setLastCommit(LastCommit lastCommit) {
             this.lastCommit = lastCommit;
         }
-        
+
         public String getAction() {
             return action;
         }
@@ -251,7 +250,7 @@ public class GitLabMergeRequest extends GitLabRequest {
         }
     }
 
-    public static class Branch{
+    public static class Branch {
         private String name;
         private String ssh_url;
         private String http_url;
@@ -289,7 +288,8 @@ public class GitLabMergeRequest extends GitLabRequest {
             this.namespace = namespace;
         }
     }
-    public static class LastCommit{
+
+    public static class LastCommit {
         private String id;
         private String message;
         private String url;
