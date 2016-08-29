@@ -190,16 +190,10 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> {
 
                 private GitLabPushCause createGitLabPushCause(GitLabPushRequest req) {
                     GitLabPushCause cause;
-                    String triggeredByUser;
-                    if (req.getCommits().size() > 0) {
-                        triggeredByUser = req.getCommits().get(0).getAuthor().getName();
-                    } else {
-                        triggeredByUser = req.getUser_name();
-                    }
                     try {
-                        cause = new GitLabPushCause(triggeredByUser, getLogFile());
+                        cause = new GitLabPushCause(req, getLogFile());
                     } catch (IOException ex) {
-                        cause = new GitLabPushCause(triggeredByUser);
+                        cause = new GitLabPushCause(req);
                     }
                     return cause;
                 }
